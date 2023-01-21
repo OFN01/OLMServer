@@ -3,6 +3,7 @@ using OLMServer.OLMData;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace AdvancedDatasetManager
@@ -24,6 +25,30 @@ namespace AdvancedDatasetManager
 
         public static Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
 
+        public static void AddDataToTable(Dictionary<string, dynamic> data, string tableName)
+        {
+            foreach (string tableData in DataSetManager.data["tables"])
+            {
+                string tableNm = tableData;
+                if (tableNm == tableName)
+                {
+                    string tablePath = new FileInfo(tableNm).Directory.Name;
+                    var dataset = ReadDataSet(DataPath + "/" + tablePath);
+                    dataset[dataset["length"]] = DataPath + "/" + new FileInfo(tablePath).Directory.Name + "/tableMember" + dataset["length"] + ".inf";
+                    dataset["length"] += 1;
+
+                    ChangeValueOfDataSet(DataPath + "/" + tablePath, "length", dataset["length"]);
+
+                    AddDataToDataSet(DataPath + "/" + tablePath, "length", dataset["length"]);
+
+                    WriteDataSet(DataPath + "/" + new FileInfo(tablePath).Directory.Name + "/tableMember" + dataset["length"] + ".inf", data);
+
+                    return;
+                }
+            }
+            throw new Exception($"No table named as {tableName} (TODO)");
+        }
+
         public static string DataPath;
         public static void Init(string dataPath, string name)
         {
@@ -32,9 +57,9 @@ namespace AdvancedDatasetManager
             {
                 Directory.CreateDirectory(dataPath);
             }
-            if (!File.Exists(dataPath + "/dbinf.ads"))
+            if (!File.Exists(dataPath + "/dbinf.dsl"))
             {
-                WriteDataSet(dataPath + "/dbinf.ads", new Dictionary<string, dynamic>()
+                WriteDataSet(dataPath + "/dbinf.dsl", new Dictionary<string, dynamic>()
                 {
                     { "type", "DataBaseInfo" },
                     { "name", name },
@@ -46,7 +71,7 @@ namespace AdvancedDatasetManager
             }
             else
             {
-                data = ReadDataSet(dataPath + "/dbinf.ads");
+                data = ReadDataSet(dataPath + "/dbinf.dsl");
                 if (!data.ContainsKey("type") || data["type"] != "DataBaseInfo")
                     throw new Exception("Wrong file type (File must be include type) (TODO)");
                 if (!data.ContainsKey("name"))
@@ -108,8 +133,8 @@ namespace AdvancedDatasetManager
                 givenType = "var";
 
             var varType = DetectType(value);
-            if (varType == "lnk" && givenType == "pth")
-                varType = "pth";
+            if (varType == "pth" && givenType == "lnk")
+                varType = "lnk";
 
             if (givenType != "var" && varType != givenType)
                 throw new Exception("Wrong type (TODO)");
@@ -169,6 +194,95 @@ namespace AdvancedDatasetManager
             }
 
             return lst.ToArray();
+        }
+
+        public static string ChangeValueOfDataSet(string datasetPath, string varName, dynamic varData)
+        {
+            string[] readData = File.ReadAllLines(datasetPath);
+            Dictionary<string, dynamic> output = new Dictionary<string, dynamic>();
+            if (readData.Length == 0 || File.ReadAllText(datasetPath).Replace(" ", "") == "")
+                throw new Exception("Empty file (TODO)");
+            if (readData[0].Trim() != "[DataSet]")
+                throw new Exception("Wrong file (TODO)");
+            int changeLine = -1;
+            string oldData = "";
+            var lineNum = 0;
+            foreach (string lin in readData)
+            {
+                if (lin.Replace(" ", "") == "")
+                    continue;
+
+                string line = lin.Trim();
+
+                if (line.Split("=")[0].Split(" ")[1].Trim() == varName)
+                {
+                    line = line.Remove(0, line.Split("=")[0].Length + 1).Trim();
+                    changeLine = lineNum;
+                    oldData = line;
+                }
+                lineNum++;
+            }
+            if (changeLine == -1)
+            {
+                return null;
+            }
+            string typ = (DetectType(oldData) == "lnk" && DetectType(varData) == "pth") ? "lnk" : DetectType(varData);
+            readData[changeLine] = $"{typ} {varName} = {SerializeData(varData, DetectType(oldData) == "lnk")}";
+
+            File.WriteAllLines(datasetPath, readData);
+
+            return oldData;
+        }
+
+        public static string AddDataToDataSet(string datasetPath, string varName, dynamic varData)
+        {
+            var givenType = "var";
+            if (varName.Split(":").Length == 2)
+            {
+                givenType = varName.Split(":")[0];
+                varName = varName.Split(":")[1];
+            }
+            string[] readData = File.ReadAllLines(datasetPath);
+            Dictionary<string, dynamic> output = new Dictionary<string, dynamic>();
+            if (readData.Length == 0 || File.ReadAllText(datasetPath).Replace(" ", "") == "")
+                throw new Exception("Empty file (TODO)");
+            if (readData[0].Trim() != "[DataSet]")
+                throw new Exception("Wrong file (TODO)");
+            int changeLine = -1;
+            string oldData = "";
+            var lineNum = 0;
+            foreach (string lin in readData)
+            {
+                if (lin.Replace(" ", "") == "")
+                    continue;
+
+                string line = lin.Trim();
+
+                if (line.Split("=")[0].Split(" ")[1].Trim() == varName)
+                {
+                    line = line.Remove(0, line.Split("=")[0].Length + 1).Trim();
+                    changeLine = lineNum;
+                    oldData = line;
+                }
+                lineNum++;
+            }
+            string typ;
+            if (changeLine == -1)
+            {
+                typ = (DetectType(oldData) == "lnk" && DetectType(varData) == "pth") ? "lnk" : DetectType(varData);
+                var newData = new string[readData.Length + 1];
+                readData.CopyTo(newData, 0);
+                newData[newData.Length-1] = $"{typ} {varName} = {SerializeData(varData, givenType == "lnk")}";
+
+                File.WriteAllLines(datasetPath, readData);
+                return null;
+            }
+            typ = (DetectType(oldData) == "lnk" && DetectType(varData) == "pth") ? "lnk" : DetectType(varData);
+            readData[changeLine] = $"{typ} {varName} = {SerializeData(varData, (DetectType(oldData) == "lnk" && givenType != "pth") || givenType == "lnk")}";
+
+            File.WriteAllLines(datasetPath, readData);
+
+            return oldData;
         }
 
         public static Dictionary<string, dynamic> ReadDataSet(string datasetPath)

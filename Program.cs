@@ -28,6 +28,11 @@ namespace OLMServer
 
             DataSetManager.Init("Data", "MyDataBase");
             var x = DataSetManager.data["UsersTBL"];
+            DataSetManager.AddDataToTable(new Dictionary<string, dynamic>()
+            {
+                {"name", "Ömer Faruk" },
+                {"surname", "Nehir" }
+            }, "Users");
             Console.WriteLine(x.length);
 
             DataSetManager.Init("Data", "OLMDataSet");
