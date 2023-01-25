@@ -28,17 +28,30 @@ namespace OLMServer
 
             DataSetManager.Init("Data", "MyDataBase");
             var x = DataSetManager.data["UsersTBL"];
-            DataSetManager.AddDataToTable(new Dictionary<string, dynamic>()
-            {
-                {"name", "Ömer Faruk" },
-                {"surname", "Nehir" }
-            }, "Users");
+            //DataSetManager.AddDataToTable(new Dictionary<string, dynamic>()
+            //{
+            //    {"name", "Ömer Faruk" },
+            //    {"surname", "Nehir" }
+            //}, "Users");
             Console.WriteLine(x.length);
 
             DataSetManager.Init("Data", "OLMDataSet");
 
 
             Console.Title = "OLM Server";
+
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Response.Body.Write(File.ReadAllBytes("Public/Documents/Errors/404.html"));
+                    context.Response.ContentType = "text/html";
+                    await next();
+                }
+            });
+
+            app.Run("http://0.0.0.0:80");
 
             int i = 0;
             string text = "Welcome to program! Press ALT + S for start to the server.";
@@ -49,6 +62,7 @@ namespace OLMServer
                 {
                     if (Console.ReadKey() == new ConsoleKeyInfo('s', ConsoleKey.S, false, true, false))
                     {
+                        Console.Write("\r" + new string(' ', Console.BufferWidth - 0));
                         Console.WriteLine("\rStart");
                         break;
                     }
@@ -68,11 +82,22 @@ namespace OLMServer
                 i++;
                 if (i > text.Length)
                 {
+                    bool br = false;
                     i = 0;
                     Thread.Sleep(80 * text.Length);
                     Console.Write("\r");
                     for (int va = 0; va < text.Length; va++)
                     {
+                        if (Console.KeyAvailable)
+                        {
+                            if (Console.ReadKey() == new ConsoleKeyInfo('s', ConsoleKey.S, false, true, false))
+                            {
+                                Console.Write("\r" + new string(' ', Console.BufferWidth - 1));
+                                Console.WriteLine("\rStart");
+                                br = true;
+                                break;
+                            }
+                        }
                         Console.CursorLeft = text.Length - va;
                         for (int vb = 0; vb < va - i; vb++)
                         {
@@ -81,23 +106,16 @@ namespace OLMServer
                         Console.CursorLeft = text.Length - va - 1;
                         Thread.Sleep(10);
                     }
+                    if (br)
+                    {
+                        break;
+                    }
                     Thread.Sleep(100);
                     Console.Write("\r");
                 }
             }   //  !!!!!!!!!!SCIENTIFIC!!!!!DONT OPEN!!!!!XTEMELY GOOD!!!!!!!!!!
 
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404)
-                {
-                    context.Response.Body.Write(File.ReadAllBytes("Public/Documents/Errors/404.html"));
-                    context.Response.ContentType = "text/html";
-                    await next();
-                }
-            });
-
-            app.Run("http://192.168.1.12:80");
+            Console.Write("\r" + new string(' ', Console.BufferWidth - 1));
         }
     }
 }

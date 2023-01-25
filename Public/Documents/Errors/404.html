@@ -1,12 +1,100 @@
-﻿<html>
+﻿<html ondragstart="return false;">
 <head>
     <meta charset="utf-8" />
     <title class="multiLanguage" textid="404PageTitle">404 Error</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/Public/Stylesheets/main.css">
+    <style>
+        html {
+            text-align: center;
+            overflow: hidden;
+            padding: 0px;
+        }
+
+        .note{
+            position: fixed;
+            left: 10px;
+            top: 80px;
+            backdrop-filter: blur(10px);
+            background-color: rgba(10, 10, 10, 0.8);
+            padding: 10px;
+            width: 200px;
+            border-radius: 15px;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        * {
+            transition: 1s;
+        }
+
+        h1 {
+            position: absolute;
+            width: calc(100% - 40px);
+            user-select: text;
+            font-size: 50px;
+            z-index: 2;
+            background-color: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            left: 0px;
+            padding-bottom: 15px;
+            padding-top: 10px;
+            bottom: 0px;
+            margin: 20px;
+            border-radius: 30px;
+        }
+
+        img {
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .image {
+            position: absolute;
+            bottom: 70px;
+            height: 600px;
+            right: 30px;
+        }
+
+        @keyframes groundAnm {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .pg {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1 class="multiLanguage" textid="404PageHeader">Page Not Exists (404)</h1>
-
-    <script src="/public/script/multiLanguage.js"></script>
+    <floatButton>Home</floatButton>
+    <h1 class="multiLanguage" textid="404PageHeader">Page Doesn't Exists (404)</h1>
+    <div class="pg">
+        <img class="image" src="/public/media/animated/not-found.gif" oncontextmenu="return false;">
+    </div>
+    <div class="note">There is empty for now!<br />Please <del>come again in later or</del> don't go again and back to home page.<br /><b>(And don't go too far away or I'll gladly ban you)</b></div>
+    <script src="/Public/Scripts/multiLanguage.js">
+    </script>
+    <script>
+        var s = function () {
+            if (window.innerHeight / window.innerWidth > 1.2) {
+                $(".image").css("height", window.innerWidth - 40 + "px");
+                $(".image").css("bottom", (window.innerHeight - (window.innerWidth - 40)) / 2 + "px");
+            }
+            else {
+                $(".image").css("height", window.innerHeight - 40 + "px");
+                $(".image").css("bottom", 30 + "px");
+            }
+        }
+        setInterval(s, 100);
+    </script>
 </body>
 </html>
