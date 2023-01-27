@@ -5,7 +5,7 @@ namespace OLMServer.WebContext
     [Route("/Public")]
     public class PublicController : Controller
     {
-        [HttpGet("Scripts/{path}")]
+        [HttpGet("Scripts/{*path}")]
         public ContentResult Scripts(string path)
         {
             if (!System.IO.File.Exists("Public/Scripts/" + path))
@@ -23,7 +23,7 @@ namespace OLMServer.WebContext
             };
         }
 
-        [HttpGet("Media/Animated/{path}")]
+        [HttpGet("Media/Animated/{*path}")]
         public ActionResult AnimatedMedia(string path)
 
         {
@@ -37,7 +37,7 @@ namespace OLMServer.WebContext
             return new FileContentResult(System.IO.File.ReadAllBytes("Public/Media/Animated/" + path), "image/gif");
         }
 
-        [HttpGet("Media/Static/{path}")]
+        [HttpGet("Media/Static/{*path}")]
         public ActionResult StaticMedia(string path)
 
         {
@@ -51,7 +51,7 @@ namespace OLMServer.WebContext
             return new FileContentResult(System.IO.File.ReadAllBytes("Public/Media/Static/" + path), "image/png");
         }
 
-        [HttpGet("Stylesheets/{path}")]
+        [HttpGet("Stylesheets/{*path}")]
         public ActionResult Stylesheet(string path)
 
         {

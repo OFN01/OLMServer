@@ -26,5 +26,5 @@ function refreshLanguage() {
 
 $(document).ready(function () {
     refreshLanguage();
-    setInterval(refreshLanguage, 300);
+    setInterval(refreshLanguage, 500);
 });

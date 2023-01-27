@@ -1,9 +1,10 @@
 ﻿{
-  "flag": "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAASFBMVEVHcEzu7u6yIzSyIzQ8O26yIzTu7u6yIzSyIzSyIzQ8O248O248O248O248O26yIzTu7u5tbJKenbdIR3fn5+15eJv////CwtLh3403AAAADnRSTlMAYBAgIO+vv2DPYL/P78tfW7cAAAC5SURBVHhe7dI7EoMwDEXRBwQMhEjil+x/pxlMbRuPVXl0GnW30DzUy5j5TVEc5UbcXgslcMLU+c6HSkPctwAWKg+xA+YrcJ5EkStpDa4//47jR5EraQOuwP797rErD/jQum1r6OaEYv/x+AEfCv0nOxT6T3Yo9J+8kM6OBKSzI6l2R7Yj21EaP1BzSJTUHGIltYXq35HtyHY0iIoBjahoAMcKHIC252J9CwDdxIWmDrfRcQE3olrG/AEo+d9f9pH8wAAAAABJRU5ErkJggg=='></img>",
+  "flag": "<img src='Public/Media/Static/flags/en-flag.png'></img>",
   "language": "English",
   "languageCode": "en",
   "mainPageTitle": "Home Page - OLM",
   "clickMe": "Click Me!",
   "404PageTitle": "404 Error!",
-  "404PageHeader": "Page Doesn't Exists (404)"
+  "404PageHeader": "Page Doesn't Exists (404)",
+  "404PageNote": "There is empty for now.<br>Please <del>come again in later or</del> don't came again and back to home page!<br>(And do what I said or I'll gladly ban you!)<br><br><b>NOTE:</b> If you didn't come here by your own effort viz you clicked a link or a button report this bug: <a href='mailto:support@0x01010.onmicrosoft.com'>support@0x01010.onmicrosoft.com</a>"
 }
