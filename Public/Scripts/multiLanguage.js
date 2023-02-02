@@ -18,8 +18,12 @@ function refreshLanguage() {
         getLanguage();
     }
     for (var i = 0; i < $('.multiLanguage').length; i++) {
-        if ($('.multiLanguage')[i].innerHTML != language[$('.multiLanguage')[i].getAttribute("textid")]) {
-            $('.multiLanguage')[i].innerHTML = language[$('.multiLanguage')[i].getAttribute("textid")];
+        if ($('.multiLanguage')[i].getAttribute("textid").toString().split(":").length == 2) {
+
+        } else {
+            if ($('.multiLanguage')[i].innerHTML != language[$('.multiLanguage')[i].getAttribute("textid")]) {
+                $('.multiLanguage')[i].innerHTML = language[$('.multiLanguage')[i].getAttribute("textid")];
+            }
         }
     }
 }

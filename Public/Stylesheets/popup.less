@@ -1,0 +1,209 @@
+﻿html {
+    background-color: rgb(50, 50, 50);
+    color: white;
+    font-family: Arial;
+    word-wrap: break-word;
+    text-align: center;
+    padding: 0px;
+    padding-top: 50px;
+}
+
+.left {
+    position: fixed;
+    left: 10px;
+}
+
+.top {
+    position: fixed;
+    top: 10px;
+}
+
+.right {
+    position: fixed;
+    right: 10px;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 10px;
+}
+
+.full-width {
+    position: fixed;
+    width: calc(100% - 25px);
+    font-size: 20px;
+}
+
+body {
+    text-align: left;
+    padding-bottom: 65px;
+}
+
+* {
+    transition: 0.2s;
+}
+
+a {
+    color: rgb(50 80 255);
+}
+
+p {
+    text-align: justify;
+}
+
+* {
+    --navbar-radius: 20px;
+    --navbar-button-radius: 10px;
+    color: white;
+}
+
+::-webkit-scrollbar {
+    border-radius: 5px 0px 0px 5px;
+    width: 10px;
+    height: 10px;
+    transition: 0.2s;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    transition: 0.2s;
+    border-radius: 5px 0px 0px 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    transition: 0.2s;
+    border-radius: 5px 0px 0px 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    transition: 0.2s;
+}
+
+float-button {
+    display: block;
+    position: fixed;
+    padding: 10px;
+    border-radius: 18px;
+    min-width: 20px;
+    min-height: 20px;
+    text-align: center;
+    align-content: center;
+    background-color: rgba(60, 60, 60, 0.6);
+    backdrop-filter: blur(7px);
+    user-select: none;
+    z-index: 999;
+}
+
+float-button:hover {
+    background-color: rgba(50, 50, 50, 0.4);
+}
+
+nav-bar {
+    display: block;
+    position: fixed;
+    bottom: 0px;
+    /*left: calc(50% - 30%);*/
+    margin: 10px;
+    padding: 5px;
+    /*width: calc(60%);*/
+    height: 40px;
+    border-radius: var(--navbar-radius);
+    background-color: rgba(70, 70, 70, 0.8);
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+}
+
+nav-bar > button {
+    margin: 5px;
+    padding: 5px;
+    min-width: 30px;
+    height: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: var(--navbar-button-radius);
+    background-color: rgba(20, 20, 20, 0.5);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+nav-bar > button > img {
+    margin: -5px;
+    margin-left: 0px;
+    margin-right: 0px;
+    max-height: 25px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+popup-title {
+    font-weight: bold;
+    font-size: 30px;
+    top: 0px;
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    padding: 5px;
+    text-align: center;
+}
+
+button {
+    background-color: rgba(30, 30, 30, 0.5);
+    backdrop-filter: blur(10px);
+    border: 0;
+    padding: 7px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+label {
+    font-weight: bold;
+    width: 130px;
+    float: left;
+    height: 20px;
+    padding: 10px;
+}
+
+label:after {
+    content: ": "
+}
+
+input {
+    background-color: rgb(30, 30, 30);
+    border: 0;
+    padding: 7px;
+    border-radius: 10px;
+    outline: 0px;
+    margin: 5px;
+}
+
+input:hover {
+    background-color: rgba(35, 35, 35);
+}
+
+textarea {
+    background-color: rgb(30, 30, 30);
+    border: 0;
+    padding: 7px;
+    border-radius: 10px;
+    outline: 0px;
+    margin: 5px;
+    width: calc(100% - 10px);
+    resize: vertical;
+    height: 90px;
+    min-height: 30px;
+    max-height: 240px;
+}
+
+textarea:hover {
+    background-color: rgba(35, 35, 35);
+}
+
+img {
+    user-select: none;
+}

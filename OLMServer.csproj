@@ -16,6 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Public\Documents\NewFolder\**" />
+    <Content Remove="Public\Documents\NewFolder\**" />
+    <EmbeddedResource Remove="Public\Documents\NewFolder\**" />
+    <None Remove="Public\Documents\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Public\Languages\EN.json" />
     <Content Remove="Public\Languages\TR.json" />
   </ItemGroup>

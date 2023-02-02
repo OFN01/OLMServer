@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace AdvancedDatasetManager
 {
-    public static class DataSetManager
+    public class DataSetManager
     {
         public static readonly Dictionary<string, string> dataTypes = new Dictionary<string, string>()
         {
@@ -23,11 +23,11 @@ namespace AdvancedDatasetManager
             { "var", "Dynamic" },
         };
 
-        public static Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
+        public Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
 
-        public static void AddDataToTable(Dictionary<string, dynamic> data, string tableName)
+        public void AddDataToTable(Dictionary<string, dynamic> data, string tableName)
         {
-            foreach (string tableData in DataSetManager.data["tables"])
+            foreach (string tableData in this.data["tables"])
             {
                 string tableNm = tableData;
                 if (tableNm == tableName)
@@ -49,8 +49,7 @@ namespace AdvancedDatasetManager
             throw new Exception($"No table named as {tableName} (TODO)");
         }
 
-        public static string DataPath;
-        public static void Init(string dataPath, string name)
+        public void Init(string dataPath, string name)
         {
             DataPath = dataPath;
             if (!Directory.Exists(dataPath))
@@ -92,6 +91,12 @@ namespace AdvancedDatasetManager
             }
         }
 
+        public string DataPath;
+        public DataSetManager(string dataPath, string name)
+        {
+            Init(dataPath, name);
+        }
+
         public static string DetectType(string data)
         {
             if (string.IsNullOrEmpty(data))
@@ -121,13 +126,18 @@ namespace AdvancedDatasetManager
             throw new Exception($"Detect Type Error: Undefined type! (TODO) [{data}]");
         }
 
+        public dynamic ParseValue(string value, string givenType = null)
+        {
+            return ParseValue(value, givenType, DataPath);
+        }
+
         public static dynamic ParseValue(string value, string givenType = null, string datasetPath = null)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return "";
 
             if (string.IsNullOrEmpty(datasetPath))
-                datasetPath = DataPath;
+                datasetPath = "";
 
             if (string.IsNullOrEmpty(givenType))
                 givenType = "var";

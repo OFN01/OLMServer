@@ -23,6 +23,24 @@ namespace OLMServer.WebContext
             };
         }
 
+        [HttpGet("Documents/{*path}")]
+        public ContentResult Documents(string path)
+        {
+            if (!System.IO.File.Exists("Public/Documents/" + path))
+                return new ContentResult
+                {
+                    StatusCode = 404,
+                    ContentType = "text/html",
+                    Content = System.IO.File.ReadAllText("Public\\Documents\\Errors\\404.html")
+                };
+            Console.Write("Eerr");
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                Content = System.IO.File.ReadAllText("Public/Documents/" + path)
+            };
+        }
+
         [HttpGet("Media/Animated/{*path}")]
         public ActionResult AnimatedMedia(string path)
 

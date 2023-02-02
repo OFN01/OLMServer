@@ -8,9 +8,32 @@ namespace OLMServer
     using Microsoft.EntityFrameworkCore;
     using OLMServer.OLMData;
     using OLMServer.OLMData.DataBase;
+    using System.Drawing;
+    using System.Net;
+    using System.Net.Sockets;
 
     public class Program
     {
+        public List<User> Users = new List<User>();
+        public List<Book> Books = new List<Book>();
+        public List<Author> Authors = new List<Author>();
+        public List<Publisher> Publishers = new List<Publisher>();
+        public List<BookSerie> BookSeries = new List<BookSerie>();
+        public List<Rent> Rents = new List<Rent>();
+
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -26,17 +49,15 @@ namespace OLMServer
             Console.Write("Enter password of mail: ************\n\n");
             ProgramData.ProgramMailPass = "Neden2koltuk"; // Console.ReadLine();
 
-            DataSetManager.Init("Data", "MyDataBase");
-            var x = DataSetManager.data["UsersTBL"];
+            var dsm = new DataSetManager("Data", "OLMDataSet"); ;
+
+            var x = dsm.data["UsersTBL"];
             //DataSetManager.AddDataToTable(new Dictionary<string, dynamic>()
             //{
             //    {"name", "Ömer Faruk" },
             //    {"surname", "Nehir" }
             //}, "Users");
             Console.WriteLine(x.length);
-
-            DataSetManager.Init("Data", "OLMDataSet");
-
 
             Console.Title = "OLM Server";
 
@@ -51,7 +72,7 @@ namespace OLMServer
                 }
             });
 
-            app.Run("http://0.0.0.0:80");
+            app.Run("http://" + GetLocalIPAddress());
 
             int i = 0;
             string text = "Welcome to program! Press ALT + S for start to the server.";
