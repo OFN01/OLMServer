@@ -36,6 +36,17 @@
             return T[m][n];
         }
 
+        public static IEnumerable<string> FindByStart(string id, IEnumerable<string> array)
+        {
+            var reval = new List<string>();
+            foreach (string str in array)
+            {
+                if (str.Trim().StartsWith("ID"+id))
+                    reval.Add(str);
+            }
+            return reval.ToArray();
+        }
+
         public static int FindSimilarity(string x, string y)
         {
             if (x == null || y == null)
@@ -52,7 +63,7 @@
             return 1000;
         }
 
-        public static List<string> AutoComplete(string text, IEnumerable<string> completeList)
+        public static IEnumerable<string> AutoComplete(string text, IEnumerable<string> completeList, int outputLimit = 0)
         {
             List<string> olst = new List<string>();
             List<int> similarities = new List<int>();
@@ -70,7 +81,7 @@
                             brk = true;
                             break;
                         }
-                        else if (FindSimilarity(item.ToLower(), completeText.ToLower()) > 300)
+                        else if (FindSimilarity(item.ToLower(), completeText.ToLower()) > 500)
                         {
                             olst.Add(s);
                             similarities.Add(FindSimilarity(item.ToLower(), completeText.ToLower()));
@@ -85,7 +96,9 @@
 
             List<string> nlst = olst.OrderBy(x => 1000 - similarities[olst.IndexOf(x)]).ToList();
 
-            return nlst;
+            if (outputLimit == 0)
+                return nlst;
+            return nlst.Take(outputLimit);
         }
     }
 }

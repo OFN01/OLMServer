@@ -33,7 +33,7 @@
             <a href="/">Home Page</a>
         </column>
     </site-info>
-    <popup id="sd">
+    <popup id="sd" style="display: none;">
         <iframe src="/Public/Documents/Popups/AddBook.html"></iframe>
     </popup>
     <script src="/Public/Scripts/multiLanguage.js"></script>
@@ -48,8 +48,16 @@
         $("#searchBar").val(params["q"]);
         $("#searchBar").attr('value', params["q"]);
 
+        $.getJSON("/api/complete?q=" + $("#searchBar").val(), function (data) {
+            $("#completeItems").empty();
+            for (var dat in data) {
+                var r = $('<button style="padding: 10px; margin: 5px;">' + data[dat] + '</button>');
+                $("#completeItems").append(r);
+            }
+        });
+
         $("#searchBar").keyup(function (event) {
-            $.getJSON("/complete?q=" + $("#searchBar").val(), function (data) {
+            $.getJSON("/api/complete?q=" + $("#searchBar").val(), function (data) {
                 $("#completeItems").empty();
                 for (var dat in data) {
                     var r = $('<button style="padding: 10px; margin: 5px;">' + data[dat] + '</button>');

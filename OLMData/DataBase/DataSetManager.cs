@@ -1,4 +1,5 @@
 ﻿using Microsoft.SqlServer.Server;
+using OLMServer;
 using OLMServer.OLMData;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace AdvancedDatasetManager
         public static readonly Dictionary<string, string> dataTypes = new Dictionary<string, string>()
         {
             { "str", "String" },
+            { "lgc", "Logical" },
             { "flt", "Float" },
             { "int", "Integer" },
             { "dec", "Decimal" },
@@ -111,6 +113,8 @@ namespace AdvancedDatasetManager
                 return "str";
             else if (data.StartsWith("[") && data.EndsWith("]"))
                 return "lst";
+            else if (data == "True" || data == "False" || data == "F" || data == "T")
+                return "lgc";
             else if (data.EndsWith("f") && float.TryParse(data.Remove(data.Length - 1, 1), out fout))
                 return "flt";
             else if (data.EndsWith("d") && decimal.TryParse(data.Remove(data.Length - 1, 1), out dout))
@@ -119,7 +123,7 @@ namespace AdvancedDatasetManager
                 return "int";
             else if (float.TryParse(data, out fout))
                 return "flt";
-            else if (data.StartsWith("@\"") && data.EndsWith("\"") && data.Remove(data.Length - 1, 1).Trim().EndsWith(".ads"))
+            else if (data.StartsWith("@\"") && data.EndsWith("\"") && data.Remove(data.Length - 1, 1).Trim().EndsWith(".dsl"))
                 return "lnk";
             else if (data.StartsWith("@\"") && data.EndsWith("\""))
                 return "pth";
@@ -137,7 +141,7 @@ namespace AdvancedDatasetManager
                 return "";
 
             if (string.IsNullOrEmpty(datasetPath))
-                datasetPath = "";
+                datasetPath = ProgramData.Directory + "/Data/.dsl";
 
             if (string.IsNullOrEmpty(givenType))
                 givenType = "var";
@@ -153,6 +157,8 @@ namespace AdvancedDatasetManager
 
             if (varType == "str")
                 return value.Remove(value.Length - 1, 1).Remove(0, 1);
+            if (varType == "lgc")
+                return value == "T" || value == "True";
             else if (varType == "int")
                 return int.Parse(value);
             else if (varType == "flt")
@@ -162,7 +168,18 @@ namespace AdvancedDatasetManager
             else if (varType == "lst")
                 return ParseList(value);
             else if (varType == "lnk")
-                return new DataSet(Path.Combine(Path.Combine(new FileInfo(datasetPath).Directory.FullName, @value.Remove(value.Length - 1, 1).Remove(0, 2))));
+            {
+                var fullName = new FileInfo(datasetPath).Directory.FullName;
+                var nm = value.Remove(value.Length - 1, 1).Remove(0, 2);
+                var first = Path.Combine(fullName, nm);
+                var second = Path.Combine(first);
+                var third = Path.GetFullPath(second);
+                if (nm == "")
+                {
+                    return new DataSet("");
+                }
+                return new DataSet("Data/"+nm);
+            }
             else if (varType == "pth")
                 return @value.Remove(value.Length - 1, 1).Remove(0, 2);
             else
@@ -282,7 +299,7 @@ namespace AdvancedDatasetManager
                 typ = (DetectType(oldData) == "lnk" && DetectType(varData) == "pth") ? "lnk" : DetectType(varData);
                 var newData = new string[readData.Length + 1];
                 readData.CopyTo(newData, 0);
-                newData[newData.Length-1] = $"{typ} {varName} = {SerializeData(varData, givenType == "lnk")}";
+                newData[newData.Length - 1] = $"{typ} {varName} = {SerializeData(varData, givenType == "lnk")}";
 
                 File.WriteAllLines(datasetPath, readData);
                 return null;
@@ -379,10 +396,14 @@ namespace AdvancedDatasetManager
             }
             else if (data is string && givenType == "lnk")
                 return $"lnk {name} = @\"{data}\"";
+            else if (data is DataSet)
+                return $"lnk {name} = @\"{((DataSet)data).path}\"";
             else if (data is string && givenType == "pth")
                 return $"pth {name} = @\"{data}\"";
             else if (data is string)
                 return $"str {name} = \"{data}\"";
+            else if (data is bool)
+                return $"lgc {name} = {(data ? "True" : "False")}";
             else if (data is int)
                 return $"int {name} = {data}";
             else if (data is float)
@@ -398,17 +419,21 @@ namespace AdvancedDatasetManager
                 return parseData;
             }
             else
-                return $"var {name} = \"{(string)data}\"";
+                return $"var {name} = \"{data.ToString()}\"";
         }
 
         public static string SerializeData(dynamic data, bool preferLink = false)
         {
             if (data is string && preferLink)
                 return $"@\"{data}\"";
+            if (data is DataSet)
+                return $"@\"{((DataSet)data).path}\"";
             else if (data is string)
                 return $"\"{data}\"";
             else if (data is int)
                 return (string)data;
+            else if (data is bool)
+                return (data ? "True" : "False");
             else if (data is float)
                 return $"{data}f";
             else if (data is decimal)

@@ -5,6 +5,7 @@ using System.Text.Json;
 
 namespace OLMServer
 {
+    using Microsoft.AspNetCore.Http.Features;
     using Microsoft.EntityFrameworkCore;
     using OLMServer.OLMData;
     using OLMServer.OLMData.DataBase;
@@ -14,13 +15,6 @@ namespace OLMServer
 
     public class Program
     {
-        public List<User> Users = new List<User>();
-        public List<Book> Books = new List<Book>();
-        public List<Author> Authors = new List<Author>();
-        public List<Publisher> Publishers = new List<Publisher>();
-        public List<BookSerie> BookSeries = new List<BookSerie>();
-        public List<Rent> Rents = new List<Rent>();
-
         public static string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -41,7 +35,7 @@ namespace OLMServer
 
             var app = builder.Build();
 
-            app.MapControllers();
+            var mc = app.MapControllers();
 
             Console.Write("Enter mail: omerfaruknehir@yaani.com\n");
             ProgramData.ProgramMail = "omerfaruknehir@yaani.com"; // Console.ReadLine();
@@ -49,17 +43,30 @@ namespace OLMServer
             Console.Write("Enter password of mail: ************\n\n");
             ProgramData.ProgramMailPass = "Neden2koltuk"; // Console.ReadLine();
 
-            var dsm = new DataSetManager("Data", "OLMDataSet"); ;
+            ProgramData.Directory = Directory.GetCurrentDirectory();
 
-            var x = dsm.data["UsersTBL"];
+            //var dsm = new DataSetManager("Data", "OLMDataSet"); ;
+
+            //var x = dsm.data["UsersTBL"];
             //DataSetManager.AddDataToTable(new Dictionary<string, dynamic>()
             //{
             //    {"name", "Ömer Faruk" },
             //    {"surname", "Nehir" }
             //}, "Users");
-            Console.WriteLine(x.length);
+            //Console.WriteLine(x.length);
 
             Console.Title = "OLM Server";
+
+            app.Use(async (context, next) =>
+            {
+                var syncIoFeature = context.Features.Get<IHttpBodyControlFeature>();
+                if (syncIoFeature != null)
+                {
+                    syncIoFeature.AllowSynchronousIO = true;
+                }
+
+                await next();
+            });
 
             app.Use(async (context, next) =>
             {

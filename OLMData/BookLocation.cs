@@ -2,7 +2,7 @@
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
-namespace OLMServer.OLMData.Structures
+namespace OLMServer.OLMData
 {
     public class BookLocationException : Exception
     {
@@ -26,8 +26,8 @@ namespace OLMServer.OLMData.Structures
         public BookLocation(string JsonData)
         {
             Dictionary<string, object> data = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonData);
-            caseNum = Int32.Parse(data["caseNum"].ToString().Replace(data["caseNum"].ToString().Split(":")[0] + ":", "").Trim('"'));
-            shelfNum = Int32.Parse(data["shelfNum"].ToString().Replace(data["shelfNum"].ToString().Split(":")[0] + ":", "").Trim('"'));
+            caseNum = int.Parse(data["caseNum"].ToString().Replace(data["caseNum"].ToString().Split(":")[0] + ":", "").Trim('"'));
+            shelfNum = int.Parse(data["shelfNum"].ToString().Replace(data["shelfNum"].ToString().Split(":")[0] + ":", "").Trim('"'));
         }
     }
 }

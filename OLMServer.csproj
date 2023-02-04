@@ -16,9 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\NewFolder\**" />
     <Compile Remove="Public\Documents\NewFolder\**" />
+    <Content Remove="Controllers\NewFolder\**" />
     <Content Remove="Public\Documents\NewFolder\**" />
+    <EmbeddedResource Remove="Controllers\NewFolder\**" />
     <EmbeddedResource Remove="Public\Documents\NewFolder\**" />
+    <None Remove="Controllers\NewFolder\**" />
     <None Remove="Public\Documents\NewFolder\**" />
   </ItemGroup>
 
@@ -28,12 +32,49 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Data\Authors\1.dsl" />
+    <None Remove="Data\Books\1.dsl" />
+    <None Remove="Data\BookSeries\1.dsl" />
+    <None Remove="Data\Comments\1.dsl" />
+    <None Remove="Data\dataset.dsl" />
+    <None Remove="Data\dataset2.dsl" />
+    <None Remove="Data\dbinf.dsl" />
+    <None Remove="Data\o" />
+    <None Remove="Data\Publishers\1.dsl" />
+    <None Remove="Data\Ratings\1.dsl" />
+    <None Remove="Data\Rents\1.dsl" />
+    <None Remove="Data\s" />
+    <None Remove="Data\StockAssets\1.dsl" />
+    <None Remove="Data\Users\1.dsl" />
+    <None Remove="Public\authors.txt" />
+    <None Remove="Public\books.txt" />
+    <None Remove="Public\Documents\Errors\404.html" />
+    <None Remove="Public\Documents\index.html" />
+    <None Remove="Public\Documents\Popups\AddBook.html" />
+    <None Remove="Public\Documents\search.html" />
+    <None Remove="Public\Media\Animated\404PageAnimation.gif" />
+    <None Remove="Public\Media\Animated\designing.gif" />
+    <None Remove="Public\Media\Animated\not-found.gif" />
+    <None Remove="Public\Media\Static\bg.png" />
+    <None Remove="Public\Media\Static\Earth.png" />
+    <None Remove="Public\Media\Static\flags\en-flag.png" />
+    <None Remove="Public\Media\Static\flags\tr-flag.png" />
+    <None Remove="Public\Media\Static\lock.png" />
+    <None Remove="Public\Scripts\less.js" />
+    <None Remove="Public\Scripts\main.js" />
+    <None Remove="Public\Scripts\multiLanguage.js" />
+    <None Remove="Public\Stylesheets\main.less" />
+    <None Remove="Public\Stylesheets\popup.less" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="4344873.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Public\Languages\EN.json" />
-    <None Include="Public\Languages\TR.json" />
+    <Resource Include="Data\BookSeries\1.dsl" />
+    <Resource Include="Public\Languages\EN.json" />
+    <Resource Include="Public\Languages\TR.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +87,38 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Public\Media\Static\flags\" />
+    <Resource Include="Data\Authors\1.dsl" />
+    <Resource Include="Data\Books\1.dsl" />
+    <Resource Include="Data\Comments\1.dsl" />
+    <Resource Include="Data\dataset.dsl" />
+    <Resource Include="Data\dataset2.dsl" />
+    <Resource Include="Data\dbinf.dsl" />
+    <Resource Include="Data\o" />
+    <Resource Include="Data\Publishers\1.dsl" />
+    <Resource Include="Data\Ratings\1.dsl" />
+    <Resource Include="Data\Rents\1.dsl" />
+    <Resource Include="Data\s" />
+    <Resource Include="Data\StockAssets\1.dsl" />
+    <Resource Include="Data\Users\1.dsl" />
+    <Resource Include="Public\authors.txt" />
+    <Resource Include="Public\books.txt" />
+    <Resource Include="Public\Documents\Errors\404.html" />
+    <Resource Include="Public\Documents\index.html" />
+    <Resource Include="Public\Documents\Popups\AddBook.html" />
+    <Resource Include="Public\Documents\search.html" />
+    <Resource Include="Public\Media\Animated\404PageAnimation.gif" />
+    <Resource Include="Public\Media\Animated\designing.gif" />
+    <Resource Include="Public\Media\Animated\not-found.gif" />
+    <Resource Include="Public\Media\Static\bg.png" />
+    <Resource Include="Public\Media\Static\Earth.png" />
+    <Resource Include="Public\Media\Static\flags\en-flag.png" />
+    <Resource Include="Public\Media\Static\flags\tr-flag.png" />
+    <Resource Include="Public\Media\Static\lock.png" />
+    <Resource Include="Public\Scripts\less.js" />
+    <Resource Include="Public\Scripts\main.js" />
+    <Resource Include="Public\Scripts\multiLanguage.js" />
+    <Resource Include="Public\Stylesheets\main.less" />
+    <Resource Include="Public\Stylesheets\popup.less" />
   </ItemGroup>
 
 </Project>

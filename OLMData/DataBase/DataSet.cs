@@ -13,14 +13,28 @@ namespace AdvancedDatasetManager
 
         public DataSet(string datasetPath)
         {
-            if (datasetPath == null || !File.Exists(datasetPath))
-                throw new Exception("Worng Dataset Path (TODO)");
+            if (datasetPath == "")
+            {
+                return;
+            }
             path = datasetPath;
+        }
+
+        public DataSet(string datasetPath, Dictionary<string, dynamic> data)
+        {
+            this.data = data;
         }
 
         public void SaveData()
         {
-            //  TODO
+            if (string.IsNullOrWhiteSpace(path))
+                throw new Exception("No path selected!");
+            DataSetManager.WriteDataSet(path, data);
+        }
+
+        public void SaveData(string path)
+        {
+            DataSetManager.WriteDataSet(path, data);
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -65,6 +79,38 @@ namespace AdvancedDatasetManager
 
             Delegate del = (Delegate)data[binder.Name];
             result = del.DynamicInvoke(args);
+
+            return true;
+        }
+
+        public bool TryGetMember(string name, out object result)
+        {
+            if (!isLoaded)
+            {
+                data = DataSetManager.ReadDataSet(path);
+                isLoaded = true;
+            }
+
+            result = null;
+
+            if (!data.ContainsKey(name))
+                return false;
+
+            result = data[name];
+            return true;
+        }
+
+        public bool TrySetMember(string name, object value)
+        {
+            if (!isLoaded)
+            {
+                data = DataSetManager.ReadDataSet(path);
+                isLoaded = true;
+            }
+
+            if (!data.ContainsKey(name))
+                data.Add(name, value);
+            data[name] = value;
 
             return true;
         }
