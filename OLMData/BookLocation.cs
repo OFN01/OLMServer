@@ -10,20 +10,20 @@ namespace OLMServer.OLMData
         public BookLocationException(string message) { Message = "BookLocationException: " + message; }
     }
 
-    public class BookLocation
+    public class BookLocationTableModel
     {
         public int ID { get; set; }
         public int caseNum { get; set; }
         public int shelfNum { get; set; }
 
-        public BookLocation(int caseNum, int shelfNum)
+        public BookLocationTableModel(int caseNum, int shelfNum)
         {
             this.caseNum = caseNum;
             this.shelfNum = shelfNum;
         }
 
         public string SerializeData() => "{\"caseNum\":" + caseNum + ", \"shelfNum\":" + shelfNum + "}";
-        public BookLocation(string JsonData)
+        public BookLocationTableModel(string JsonData)
         {
             Dictionary<string, object> data = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonData);
             caseNum = int.Parse(data["caseNum"].ToString().Replace(data["caseNum"].ToString().Split(":")[0] + ":", "").Trim('"'));

@@ -6,5 +6,6 @@
   "clickMe": "Click Me!",
   "404PageTitle": "404 Error!",
   "404PageHeader": "Page Doesn't Exists (404)",
-  "404PageNote": "There is empty for now.<br>Please <del>come again in later or</del> don't came again and back to home page!<br>(And do what I said or I'll gladly ban you!)<br><br><b>NOTE:</b> If you didn't come here by your own effort viz you clicked a link or a button report this bug: <a href='mailto:support@0x01010.onmicrosoft.com'>support@0x01010.onmicrosoft.com</a>"
+  "404PageNote": "There is empty for now.<br>Please <del>come again in later or</del> don't came again and back to home page!<br>(And do what I said or I'll gladly ban you!)<br><br><b>NOTE:</b> If you didn't come here by your own effort viz you clicked a link or a button report this bug: <a href='mailto:support@0x01010.onmicrosoft.com'>support@0x01010.onmicrosoft.com</a>",
+  "signupPageTitle":  "Signup"
 }

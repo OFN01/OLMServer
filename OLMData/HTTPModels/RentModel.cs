@@ -1,7 +1,7 @@
 ﻿using AdvancedDatasetManager;
 using OLMServer.OLMData.Structures;
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.HTTPModels
 {
     public class RentModel
     {

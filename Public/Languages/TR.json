@@ -6,5 +6,6 @@
   "clickMe": "Tıkla!",
   "404PageTitle": "404 Hatası!",
   "404PageHeader": "Sayfa Bulunamadı (404)",
-  "404PageNote": "Burası şimdilik temiz (Kalbin kadar). <br>Lütfen <del>daha sonra tekrar gel veya</del> bir daha gelme ve ana sayfaya dön!<br>(Ve dediklerimi yap yoksa seni mutlulukla banlarım!)<br><br><b>NOT:</b> Eğer bu sayfaya kendi uğraşlarınla gelmediysen yani sayfadaki bir linke tıklayınca geldiysen bu durumu bildir: <a href='mailto:support@0x01010.onmicrosoft.com'>support@0x01010.onmicrosoft.com</a>"
+  "404PageNote": "Burası şimdilik temiz (Kalbin kadar). <br>Lütfen <del>daha sonra tekrar gel veya</del> bir daha gelme ve ana sayfaya dön!<br>(Ve dediklerimi yap yoksa seni mutlulukla banlarım!)<br><br><b>NOT:</b> Eğer bu sayfaya kendi uğraşlarınla gelmediysen yani sayfadaki bir linke tıklayınca geldiysen bu durumu bildir: <a href='mailto:support@0x01010.onmicrosoft.com'>support@0x01010.onmicrosoft.com</a>",
+  "signupPageTitle": "Kayıt Ol"
 }

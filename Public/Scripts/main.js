@@ -10,17 +10,17 @@ function search(text) {
 $(document).ready(function () {
     if ($("input") === Array) {
         for (var i in $("input")) {
-            console.log("a");
+            if ($(i).attr("type") == "text" || $(i).attr("type") == undefined || $(i).attr("type") == null || $(i).attr("type") == "") {
+                continue;
+            }
             if ($(i).val() == null) {
-                console.log("s");
                 $(i).attr("value", "");
             } else {
-                console.log("d");
                 $(i).attr("value", $(i).val());
             }
         }
     }
-    else {
+    else if ($("input").attr("type") == "text" || $("input").attr("type") == undefined || $("input").attr("type") == null || $("input").attr("type") == "") {
         $("input").attr("value", $("input").val());
     }
     setTimeout(function () { $("*").css("transition", "200ms"); }, 20);

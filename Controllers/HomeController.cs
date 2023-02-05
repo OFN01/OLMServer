@@ -45,6 +45,16 @@ namespace OLMServer.WebContext
             };
         }
 
+        [HttpGet("signup")]
+        public ActionResult Signup()
+        {
+            return new ContentResult()
+            {
+                ContentType = "text/html",
+                Content = System.IO.File.ReadAllText("Public/Documents/signup.html")
+            };
+        }
+
         [HttpGet("favicon.ico")]
         public ActionResult Favicon()
         {

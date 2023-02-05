@@ -2,9 +2,9 @@
 using OLMServer.OLMData.Enums;
 using AdvancedDatasetManager;
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.SQLModels
 {
-    public class User
+    public class UserTableModel
     {
         public int ID { get; set; }
 

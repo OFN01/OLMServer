@@ -1,7 +1,7 @@
 ﻿using AdvancedDatasetManager;
 using System.Xml.Linq;
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.HTTPModels
 {
     public class CommentModel
     {

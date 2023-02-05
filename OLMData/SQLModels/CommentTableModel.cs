@@ -1,9 +1,9 @@
 ﻿using AdvancedDatasetManager;
 using System.Xml.Linq;
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.SQLModels
 {
-    public class Comment
+    public class CommentTableModel
     {
         public int ID { get; set; }
 

@@ -3,9 +3,9 @@ using System.Reflection;
 using System.Text.Json;
 using System.Xml.Linq;
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.SQLModels
 {
-    public class Book
+    public class BookTableModel
     {
         public int ID { get; set; }
 

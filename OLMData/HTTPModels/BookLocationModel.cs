@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.HTTPModels
 {
     public class BookLocationModel
     {

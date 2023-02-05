@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
 using OLMServer.OLMData.Structures;
+using System.Text.Json;
 
 namespace OLMServer.OLMData.DataBase
 {
@@ -17,7 +19,7 @@ namespace OLMServer.OLMData.DataBase
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<BookLocation> BookLocations { get; set; }
+        public DbSet<BookLocationTableModel> BookLocations { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Mail> Mails { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
@@ -44,6 +46,12 @@ namespace OLMServer.OLMData.DataBase
                         eb.Ignore("IntList");
                         eb.HasNoKey();
                     });
+
+            modelBuilder.Entity<string[]>().Property(p => p)
+            .HasConversion(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<string>>(v)
+            );
         }
     }
 }

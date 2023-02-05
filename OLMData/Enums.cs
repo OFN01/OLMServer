@@ -8,11 +8,20 @@
         Admin = 3,
     }
 
-    public enum PunishmentStatus
+    public enum PenaltyReason
     {
-        None = 0,
-        RentTimeout = 1,
-        RentLost = 2,
-        TakeWithoutRent = 3,
+        Other = 0,
+        LostBook = 1,
+        DamageBook = 2,
+        ReturnTimeout = 3,
+        TakeWithoutRent = 4
+    }
+
+    public enum PenaltyType
+    {
+        PayWithBook = 0,
+        PayWithMoney = 1,
+        BanForDays = 2,
+        BanUntilADate = 3
     }
 }

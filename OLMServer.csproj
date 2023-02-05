@@ -52,6 +52,7 @@
     <None Remove="Public\Documents\index.html" />
     <None Remove="Public\Documents\Popups\AddBook.html" />
     <None Remove="Public\Documents\search.html" />
+    <None Remove="Public\Documents\signup.html" />
     <None Remove="Public\Media\Animated\404PageAnimation.gif" />
     <None Remove="Public\Media\Animated\designing.gif" />
     <None Remove="Public\Media\Animated\not-found.gif" />
@@ -73,6 +74,7 @@
 
   <ItemGroup>
     <Resource Include="Data\BookSeries\1.dsl" />
+    <Resource Include="Public\Documents\signup.html" />
     <Resource Include="Public\Languages\EN.json" />
     <Resource Include="Public\Languages\TR.json" />
   </ItemGroup>
@@ -83,6 +85,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 

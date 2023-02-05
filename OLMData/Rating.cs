@@ -8,7 +8,7 @@ namespace OLMServer.OLMData
         public int ID { get; set; }
 
         public Book book { get; set; }
-        public float point { get => pointSum / activeCommentNum; }
+        public float point { get => activeCommentNum == 0 ? -1 : pointSum / activeCommentNum; }
         public int pointSum { get; set; }
         public int activeCommentNum { get; set; }
         public List<Comment> comments { get; set; }
@@ -24,52 +24,6 @@ namespace OLMServer.OLMData
         {
             activeCommentNum--;
             pointSum += comment.ratePoint;
-        }
-
-        public static Rating FromDataSet(DataSet ds)
-        {
-            dynamic ID;
-            dynamic book;
-            dynamic pointSum;
-            dynamic activeCommentNum;
-            dynamic commentDataSets;
-            if (!(ds.TryGetMember("ID", out ID) &&
-                  ds.TryGetMember("book", out book) &&
-                  ds.TryGetMember("pointSum", out pointSum) &&
-                  ds.TryGetMember("activeCommentNum", out activeCommentNum) &&
-                  ds.TryGetMember("comments", out commentDataSets)
-            ))
-                throw new Exception("Wrong Type (TODO)");
-            var comments = new List<Comment>();
-            foreach (DataSet dataset in (IEnumerable<DataSet>)commentDataSets)
-            {
-                comments.Add(Comment.FromDataSet(dataset));
-            }
-            return new Rating()
-            {
-                ID = ID,
-                book = Book.FromDataSet(book),
-                pointSum = pointSum,
-                activeCommentNum = activeCommentNum,
-                comments = comments
-            };
-        }
-
-        public DataSet ToDataSet()
-        {
-            var comments = new List<DataSet>();
-            foreach (Comment comment in this.comments)
-            {
-                comments.Add(comment.ToDataSet());
-            }
-            return new DataSet($"Data/Ratings/{ID}.dsl", new Dictionary<string, dynamic>()
-            {
-                { "ID", ID },
-                { "book", book.ToDataSet() },
-                { "pointSum", pointSum },
-                { "active", activeCommentNum },
-                { "comments", comments }
-            });
         }
     }
 }

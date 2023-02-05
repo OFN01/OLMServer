@@ -293,15 +293,79 @@ nav-bar > button > img {
     border-radius: 5px;
 }
 
+input {
+    background-color: rgb(30, 30, 30);
+    border: 0;
+    padding: 7px;
+    border-radius: 10px;
+    outline: 0px;
+    margin: 5px;
+}
+
+::-ms-reveal {
+    filter: invert(100%);
+}
+
+input:hover {
+    background-color: rgba(35, 35, 35);
+}
+
 button {
-    background-color: rgba(50, 50, 50, 0.5);
+    background-color: rgba(30, 30, 30, 0.5);
     backdrop-filter: blur(10px);
     border: 0;
+    padding: 7px;
     border-radius: 10px;
+    margin: 5px;
 }
 
 button:hover {
-    background-color: rgba(50, 50, 50, 0.8);
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+input[type=button], input[type=submit] {
+    background-color: rgba(30, 30, 30, 0.5);
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 0;
+    padding: 7px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+input[type=button]:hover, input[type=submit]:hover {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: white;
+}
+
+label {
+    font-weight: bold;
+    width: 130px;
+    float: left;
+    height: 20px;
+    padding: 10px;
+}
+
+label:after {
+    content: ": "
+}
+
+textarea {
+    background-color: rgb(30, 30, 30);
+    border: 0;
+    padding: 7px;
+    border-radius: 10px;
+    outline: 0px;
+    margin: 5px;
+    width: calc(100% - 10px);
+    resize: vertical;
+    height: 90px;
+    min-height: 30px;
+    max-height: 240px;
+}
+
+textarea:hover {
+    background-color: rgba(35, 35, 35);
 }
 
 img {

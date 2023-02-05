@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OLMServer.Libraries;
 using OLMServer.OLMData;
+using OLMServer.OLMData.HTTPModels;
+using System.Text.Json;
 
 namespace OLMServer.Controllers
 {
@@ -381,27 +383,160 @@ namespace OLMServer.Controllers
             };
         }
 
-        [HttpPost("addbook")]
-        public ActionResult AddBook()
+        [HttpPost("addauthor")]
+        public ActionResult AddAuthor(AuthorModel author)
         {
-            ProgramData.books.Add(new Book()
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            int ID = ProgramData.authors.Count;
+
+            ProgramData.authors[ID] = new Author()
             {
-                author = new Author(),
-                bookSerie = new BookSerie(),
-                currentStocks = new List<StockAsset> { new StockAsset() { } },
-                description = "",
-                ID = 1,
-                likers = new List<User> { },
-                name = "name",
-                publisher = new Publisher(),
-                rating = new Rating(),
-                tags = new string[] { "Deneme" },
-                types = new string[] { "T" }
-            });
+                ID = ID,
+                name = author.name,
+                surname = author.surname,
+                description = author.description,
+                tags = JsonSerializer.Deserialize<string[]>(author.tags),
+                birthDate = DateOnly.ParseExact(author.birthDate, "yyyy"),
+                books = new List<Book>(),
+                bookSeries = new List<BookSerie>()
+            };
+
             return new ContentResult()
             {
-                ContentType = "text/html",
-                Content = ""
+                StatusCode = 200,
+                ContentType = "text/plain",
+                Content = ID.ToString()
+            };
+        }
+
+        [HttpPost("addpublisher")]
+        public ActionResult AddPublisher(PublisherModel publisher)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            int ID = ProgramData.publishers.Count;
+
+            ProgramData.publishers[ID] = new Publisher()
+            {
+                ID = ID,
+                name = publisher.name,
+                tags = JsonSerializer.Deserialize<string[]>(publisher.tags),
+                books = new List<Book>()
+            };
+
+            return new ContentResult()
+            {
+                StatusCode = 200,
+                ContentType = "text/plain",
+                Content = ID.ToString()
+            };
+        }
+
+        [HttpPost("addbookserie")]
+        public ActionResult AddBookSerie(BookSerieModel bookSerie)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            int ID = ProgramData.bookSeries.Count;
+
+            ProgramData.bookSeries[ID] = new BookSerie()
+            {
+                ID = ID,
+                name = bookSerie.name,
+                description = bookSerie.description,
+                tags = JsonSerializer.Deserialize<string[]>(bookSerie.tags),
+                books = new List<Book>()
+            };
+
+            return new ContentResult()
+            {
+                StatusCode = 200,
+                ContentType = "text/plain",
+                Content = ID.ToString()
+            };
+        }
+
+        [HttpPost("addbook")]
+        public ActionResult AddBook(BookModel book)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            int ID = ProgramData.books.Count;
+
+            ProgramData.books[ID] = new Book()
+            {
+                author = ProgramData.authors[book.authorID],
+                bookSerie = ProgramData.bookSeries[book.bookSerieID],
+                currentStocks = new List<StockAsset> { },
+                description = book.description,
+                ID = ID,
+                likers = new List<User> { },
+                name = book.name,
+                publisher = ProgramData.publishers[book.publisherID],
+                tags = new string[] { "Deneme" },
+                types = new string[] { "T" }
+            };
+
+            ProgramData.authors[book.authorID].books.Add(ProgramData.books[ID]);
+            ProgramData.publishers[book.publisherID].books.Add(ProgramData.books[ID]);
+            if (ProgramData.bookSeries[book.bookSerieID] != null)
+                ProgramData.bookSeries[book.bookSerieID].books.Add(ProgramData.books[ID]);
+
+            ProgramData.ratings[ProgramData.ratings.Count] = new Rating()
+            {
+                book = ProgramData.books[ID],
+                activeCommentNum = 0,
+                pointSum = 0,
+                comments = new List<Comment> { },
+                ID = ProgramData.ratings.Count,
+            };
+
+            ProgramData.books[ID].rating = ProgramData.ratings[ProgramData.ratings.Count - 1];
+
+            return new ContentResult()
+            {
+                StatusCode = 200,
+                ContentType = "text/plain",
+                Content = ID.ToString()
+            };
+        }
+
+        [HttpPost("signup")]
+        public ActionResult AddUser(UserModel user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            int ID = ProgramData.users.Count;
+
+            ProgramData.users[ID] = new User()
+            {
+                ID = ID,
+                name = user.name,
+                surname = user.surname,
+                password = user.password,
+                profilePhoto = null,
+                signupDate = DateTime.Now,
+                mail = user.mail,
+                phoneNumber = null,
+                userLevel = user.userLevel,
+                likedBooks = new List<Book>(),
+                activePenalties = new List<Penalty>(),
+                penaltyHistory = new List<Penalty>(),
+                activeRents = new List<Rent>(),
+                rentHistory = new List<Rent>()
+            };
+
+            return new ContentResult()
+            {
+                StatusCode = 200,
+                ContentType = "text/plain",
+                Content = ID.ToString()
             };
         }
     }

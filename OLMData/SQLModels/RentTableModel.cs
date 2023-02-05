@@ -1,9 +1,9 @@
 ﻿using AdvancedDatasetManager;
 using OLMServer.OLMData.Structures;
 
-namespace OLMServer.OLMData
+namespace OLMServer.OLMData.SQLModels
 {
-    public class Rent
+    public class RentTableModel
     {
         public int ID { get; set; }
 

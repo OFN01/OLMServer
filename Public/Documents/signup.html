@@ -1,0 +1,46 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <title class="multiLanguage" textid="signupPageTitle">Signup</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet/less" type="text/css" href="/Public/Stylesheets/main.less" />
+    <script src="/Public/Scripts/less.js"></script>
+</head>
+<body>
+    <page style="text-align: center;">
+        <div style="width: 400px; text-align:center; vertical-align: central; top: 100px; display:inline-block; background-color: rgb(50, 50, 50); border-radius: 20px; padding: 20px;">
+            <div style="width: auto; display:inline-block; text-align: start;">
+                <h1 style="margin-top: 0px; margin-bottom: 30px;text-align-last: center; width: 100%;">Signup</h1>
+                <label for="mail">E-mail</label>
+                <input name="mail" type="email" placeholder="examplemail@domain.com" /><br />
+                <label for="code">Phone Number</label>
+                <input style="width: 50px;" name="code" placeholder="+XXX" />
+                <input style="width: 110px;" name="phonenumber" placeholder="XXX XXX XXXX" /><br />
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="*******************************" /><br />
+                <input type="button" class="multiLanguage" textid="value:signupPageTitle" value="Signup" style="width: 325px; margin-bottom: 20px; margin-top: 10px;"/>
+            </div>
+        </div>
+    </page>
+    <popup id="sd" style="display: none;">
+        <iframe src="/Public/Documents/Popups/AddBook.html"></iframe>
+    </popup>
+    <script src="/Public/Scripts/multiLanguage.js"></script>
+    <script src="/Public/Scripts/main.js"></script>
+    <script>
+function closePopup() {
+            $("#sd").css("display", "none");
+}
+
+$("#searchBar").keyup(function (event) {
+            $.getJSON("/api/complete?q=" + $("#searchBar").val(), function (data) {
+                $("#completeItems").empty();
+                for (var dat in data) {
+                    var r = $('<button style="padding: 10px; margin: 5px;">' + data[dat] + '</button>');
+                    $("#completeItems").append(r);
+                }
+            });
+});
+    </script>
+</body>
+</html>
