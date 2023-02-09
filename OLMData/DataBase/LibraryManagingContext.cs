@@ -50,7 +50,7 @@ namespace OLMServer.OLMData.DataBase
             modelBuilder.Entity<string[]>().Property(p => p)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v)
+                v => JsonConvert.DeserializeObject<string[]>(v)
             );
         }
     }
